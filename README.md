@@ -1,8 +1,6 @@
-# Activemodel::Unvalidate
+# ActiveModel::Unvalidate
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/activemodel/unvalidate`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Intended for working with models outside of your control, `ActiveModel::Unvalidate` provides methods for cleanly removing existing `ActiveModel::Validations` validators from existing models. This allows your project to loosen or change the validations to suite the needs of your application without the need to dig into the implmentation details of validations.
 
 ## Installation
 
@@ -22,7 +20,54 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Assume a model exists that you cannot modify its original definition.
+
+```ruby
+class Example
+  include ActiveModel::Validations
+
+  attr_accessor :name, :email
+
+  validates :name, presence: true, length: { minimum: 2 }
+  validates :email, presence: true
+
+  validate :real_email
+
+  private
+
+  def real_email
+    unless email =~ /[a-z]+@[a-z]+\.[a-z]{1,5}/
+      errors.add(:email, 'is not formatted correctly.')
+    end
+  end
+end
+```
+
+Here you can remove individual validations on specific fields or attributes, such as the length validator on `name`. You can also remove a method-base validation, such as the `real_email` validator.
+
+```ruby
+class Example
+  include ActiveModel::Unvalidate
+
+  unvalidates :name, :length
+  unvalidate :real_email
+end
+```
+
+You can also remove all validations associated to a specific field/attribute.
+
+```ruby
+class Example
+  include ActiveModel::Unvalidate
+
+  unvalidates_all :name
+  unvalidates_all :email
+
+  unvalidate :real_email
+end
+```
+
+This would remove all the validations provided in the example, allowing your application to either redefine new validation rules or leave the model without validations.
 
 ## Development
 
@@ -32,7 +77,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/activemodel-unvalidate.
+Bug reports and pull requests are welcome on GitHub at https://github.com/weblinc/activemodel-unvalidate.
 
 ## License
 
