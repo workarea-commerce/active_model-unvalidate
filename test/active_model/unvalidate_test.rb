@@ -31,7 +31,7 @@ class ActiveModel::UnvalidateTest < Minitest::Test
 
   class UnvalidatedExample < BaseExample
     unvalidates_all :name
-    unvalidates_all :email
+    unvalidates :email
     unvalidate :real_email
   end
 

@@ -20,7 +20,9 @@ module ActiveModel
       #
       # @return nil
       #
-      def unvalidates(field, validations)
+      def unvalidates(field, validations = nil)
+        return unvalidates_all(field) if validations.nil?
+
         validations = Array(validations).map do |validation|
           [validation, 'validator'].join('_').classify
         end

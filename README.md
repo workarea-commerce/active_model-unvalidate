@@ -56,8 +56,8 @@ You can also remove all validations associated to a specific field/attribute.
 
 ```ruby
 class Example
-  unvalidates_all :name
-  unvalidates_all :email
+  unvalidates :name
+  unvalidates :email
 
   unvalidate :real_email
 end
