@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    active_model-unvalidate (1.0.0)
+    active_model-unvalidate (1.0.1)
       activemodel (> 4.0.0)
       activesupport (> 4.0.0)
 
