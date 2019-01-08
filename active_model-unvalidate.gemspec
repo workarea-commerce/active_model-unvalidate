@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "active_model/unvalidate/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "activemodel-unvalidate"
+  spec.name          = "active_model-unvalidate"
   spec.version       = ActiveModel::Unvalidate::VERSION
   spec.authors       = ["Matt Duffy"]
   spec.email         = ["mduffy@weblinc.com"]
 
   spec.summary       = %q{Provides an ActiveModel::Unvalidate module to remove validations}
   spec.description   = %q{ActiveModel::Unvalidate provides a clean api for removing existing validations from models}
-  spec.homepage      = "https://github.com/weblinc/activemodel-unvalidate."
+  spec.homepage      = "https://github.com/weblinc/active_model-unvalidate."
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.
