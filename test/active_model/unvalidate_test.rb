@@ -3,7 +3,6 @@ require "test_helper"
 class ActiveModel::UnvalidateTest < Minitest::Test
   class BaseExample
     include ActiveModel::Validations
-    include ActiveModel::Unvalidate
 
     attr_accessor :name, :email
 
@@ -56,6 +55,6 @@ class ActiveModel::UnvalidateTest < Minitest::Test
 
   def test_unvalidates_all
     assert(BaseExample.new.invalid?)
-    assert(UnvalidatedExample.new.invalid?)
+    assert(UnvalidatedExample.new.valid?)
   end
 end

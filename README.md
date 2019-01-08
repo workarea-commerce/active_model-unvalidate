@@ -7,7 +7,7 @@ Intended for working with models outside of your control, `ActiveModel::Unvalida
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'activemodel-unvalidate'
+gem 'activemodel-unvalidate', require: 'active_model/unvalidate'
 ```
 
 And then execute:
@@ -43,12 +43,10 @@ class Example
 end
 ```
 
-Here you can remove individual validations on specific fields or attributes, such as the length validator on `name`. You can also remove a method-base validation, such as the `real_email` validator.
+With `activemodel-unvalidate` included in your bundle, the `Unvalidate` methods are automatically available to any class that includes `ActiveModel::Validations`. Here you can remove individual validations on specific fields or attributes, such as the length validator on `name`. You can also remove a method-base validation, such as the `real_email` validator.
 
 ```ruby
 class Example
-  include ActiveModel::Unvalidate
-
   unvalidates :name, :length
   unvalidate :real_email
 end
@@ -58,8 +56,6 @@ You can also remove all validations associated to a specific field/attribute.
 
 ```ruby
 class Example
-  include ActiveModel::Unvalidate
-
   unvalidates_all :name
   unvalidates_all :email
 

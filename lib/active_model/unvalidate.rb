@@ -5,6 +5,14 @@ module ActiveModel
     extend ActiveSupport::Concern
 
     module ClassMethods
+      # Copies callbacks to subclasses to ensure ancestor validations
+      # are not affected by unvalidating.
+      #
+      def inherited(base)
+        base._validate_callbacks = _validate_callbacks.dup
+        super
+      end
+
       # Removes specified validations from existing models for a given field
       #
       # @param [Symbol] field the field to remove validations from
@@ -74,4 +82,6 @@ module ActiveModel
       end
     end
   end
+
+  Validations.include Unvalidate
 end
