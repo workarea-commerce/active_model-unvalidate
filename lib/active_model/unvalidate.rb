@@ -35,8 +35,8 @@ module ActiveModel
         end
         _validate_callbacks.select do |callback|
           is_callback_class?(callback) &&
-            callback.raw_filter.attributes.include?(field) &&
-              validations.include?(extract_validator_name(callback.raw_filter))
+            callback_filter(callback).attributes.include?(field) &&
+              validations.include?(extract_validator_name(callback_filter(callback)))
         end.each do |callback|
           _validate_callbacks.delete(callback)
         end
@@ -53,7 +53,7 @@ module ActiveModel
           key == field
         end
         _validate_callbacks.select do |callback|
-          is_callback_class?(callback) && callback.raw_filter.attributes.include?(field)
+          is_callback_class?(callback) && callback_filter(callback).attributes.include?(field)
         end.each do |callback|
           _validate_callbacks.delete(callback)
         end
@@ -67,7 +67,7 @@ module ActiveModel
       #
       def unvalidate(method)
         _validate_callbacks.select do |callback|
-          callback.raw_filter == method
+          callback_filter(callback) == method
         end.each do |callback|
           _validate_callbacks.delete(callback)
         end
@@ -75,12 +75,17 @@ module ActiveModel
 
       private
 
+      def callback_filter(callback)
+        # Rails < 7.1 used raw_filter; Rails 7.1+ uses filter
+        callback.respond_to?(:raw_filter) ? callback.raw_filter : callback.filter
+      end
+
       def extract_validator_name(validator)
         validator.class.to_s.demodulize
       end
 
       def is_callback_class?(callback)
-        callback.raw_filter.respond_to?(:attributes)
+        callback_filter(callback).respond_to?(:attributes)
       end
     end
   end
